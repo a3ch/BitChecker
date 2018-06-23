@@ -5,8 +5,11 @@ def commit_close(func):
         con = sqlite3.connect("base.db")
         cur = con.cursor()
         sql = func(*args)
-        cur.execute(sql)
-        con.commit()
+        try:
+            cur.execute(sql)
+            con.commit()
+        except sqlite3.OperationalError:
+            print("Error: SQL Operational Error")
         con.close()
 
     return func_internal
