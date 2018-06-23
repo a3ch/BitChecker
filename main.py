@@ -1,10 +1,12 @@
 import requests
 import sched
 import time
+from pathlib import Path
 from datetime import datetime, timedelta
 from funcs import db_create, db_insert, db_select
 
-db_create("base")
+if not Path("base.db").is_file():
+    db_create("base")
 
 scheduler = sched.scheduler(timefunc=time.time)
 
