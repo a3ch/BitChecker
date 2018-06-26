@@ -1,5 +1,6 @@
 import sqlite3
 
+
 def commit_close(func):
     def func_internal(*args):
         con = sqlite3.connect("base.db")
@@ -13,6 +14,7 @@ def commit_close(func):
         con.close()
 
     return func_internal
+
 
 @commit_close
 def db_insert(array, mode=True):
@@ -45,15 +47,18 @@ def db_create(name, mode=True):
                 id_fix INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT)
     """.format(name)
 
+
 @commit_close
-def db_update(price,field):
+def db_update(price, field):
     return """
     UPDATE base SET price_USD='{}', date=DATE('now'), time=TIME('now') WHERE id='{}'
-    """.format(price,field)
+    """.format(price, field)
 
 # Única func que não recebe o decorado
 # ALTEREI O FETCHALL
-def db_select(data ,field):
+
+
+def db_select(data, field):
     con = sqlite3.connect("base.db")
     cur = con.cursor()
     sql = """
@@ -63,6 +68,6 @@ def db_select(data ,field):
     data = cur.fetchone()
     con.close()
 
-    if data == None:
+    if data is None:
         return data
     return data[0]
